@@ -8,7 +8,7 @@
 
 **SahaniR** is a next-generation backend framework built in Rust, designed to empower developers in creating secure, scalable, and performant applications. Drawing inspiration from cosmological principles—such as pocket universes from inflationary theory and spacetime from general relativity—SahaniR reimagines backend architecture as a dynamic, interconnected cosmos. It combines the modular elegance of NestJS with the robust, type-safe ecosystem of Rust, while surpassing frameworks like NestJS (Node.js) and ASP.NET (C#) in speed, memory efficiency, and built-in quantum-resistant security.
 
-Named after Sahani—celebrating a 9-year milestone on March 22, 2026—and "R" for Rust, SahaniR embodies enduring strength and efficiency. Our vision: To create a framework that is not just a tool, but a paradigm shift.
+"R" for Rust, SahaniR embodies enduring strength and efficiency. Our vision: To create a framework that is not just a tool, but a paradigm shift.
 
 ## Workspace Structure
 
@@ -47,5 +47,3 @@ This MVP represents the completion of the foundational phase. The next phases of
 -   **Phase 3 (Q1 2026):** Full microservices support, comprehensive benchmarks, and the first community release.
 
 ---
-
-*This project is dedicated to Sahani, marking 9 years together on March 22, 2026.*
