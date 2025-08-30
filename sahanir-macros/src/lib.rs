@@ -1,16 +1,20 @@
 use proc_macro::TokenStream;
 use quote::quote;
-use syn::{parse_macro_input, AttributeArgs, ImplItem, ItemImpl, NestedMeta};
+use syn::{parse_macro_input, ImplItem, ItemImpl, Lit, Meta};
 
 #[proc_macro_attribute]
 pub fn sahanir_controller(args: TokenStream, input: TokenStream) -> TokenStream {
-    let args = parse_macro_input!(args as AttributeArgs);
+    // The `args` TokenStream is parsed into a `syn::Meta` structure.
+    let args_meta = parse_macro_input!(args as Meta);
     let mut impl_block = parse_macro_input!(input as ItemImpl);
 
     // Get the base path from the controller attribute, e.g., #[sahanir_controller("/users")]
-    let base_path = match args.first() {
-        Some(NestedMeta::Lit(syn::Lit::Str(lit))) => lit.value(),
-        _ => "".to_string(), // Default to no base path
+    let base_path = match args_meta {
+        Meta::List(list) => match list.nested.first() {
+            Some(syn::NestedMeta::Lit(Lit::Str(lit))) => lit.value(),
+            _ => "".to_string(),
+        },
+        _ => "".to_string(),
     };
 
     let mut route_handlers = Vec::new();
@@ -20,19 +24,19 @@ pub fn sahanir_controller(args: TokenStream, input: TokenStream) -> TokenStream 
         if let ImplItem::Fn(method) = item {
             // Find the first SahaniR route attribute on the method
             if let Some(route_attr_index) = method.attrs.iter().position(|attr| {
-                let path = &attr.path;
+                let path = attr.path();
                 path.is_ident("get")
                     || path.is_ident("post")
                     || path.is_ident("put")
                     || path.is_ident("delete")
             }) {
                 let route_attr = &method.attrs[route_attr_index];
-                let http_method = route_attr.path.get_ident().unwrap().clone();
+                let http_method = route_attr.path().get_ident().unwrap().clone();
 
-                // Parse the route path from the attribute, e.g., #[get("/:id")]
-                let route_path = match route_attr.parse_meta() {
-                    Ok(syn::Meta::List(meta_list)) => match meta_list.nested.first() {
-                        Some(NestedMeta::Lit(syn::Lit::Str(lit))) => lit.value(),
+                // Parse the route path from the attribute's metadata
+                let route_path = match &route_attr.meta {
+                    Meta::List(meta_list) => match meta_list.nested.first() {
+                        Some(syn::NestedMeta::Lit(Lit::Str(lit))) => lit.value(),
                         _ => panic!("Route attribute must have a path string, e.g., #[get(\"/\")]"),
                     },
                     _ => panic!("Invalid route attribute format."),
@@ -65,10 +69,6 @@ pub fn sahanir_controller(args: TokenStream, input: TokenStream) -> TokenStream 
             axum::Router::new().nest(#base_path, #router_code)
         }
     };
-
-    // Add the new method to the impl block
-    let new_method: ImplItem = syn::parse2(get_router_method).unwrap();
-    impl_block.items.push(new_method);
 
     // Add the new method to the impl block
     let new_method: ImplItem = syn::parse2(get_router_method).unwrap();
