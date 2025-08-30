@@ -1,5 +1,4 @@
 use sahanir::prelude::*;
-use std::any::Any;
 
 mod controllers;
 use controllers::HomeController;
@@ -15,7 +14,7 @@ impl PocketUniverse for RootUniverse {
 
     fn configure(&self) -> UniverseConfiguration {
         UniverseConfiguration {
-            controllers: vec![Box::new(HomeController)],
+            controllers: vec![HomeController::get_router()],
         }
     }
 }
