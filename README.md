@@ -22,7 +22,7 @@ SahaniR is a backend framework in Rust. It helps developers build applications t
 SahaniR stands out by focusing on both performance and security from the start. It provides blazing speed through Rust's efficient design and concurrency. It includes extreme security with post-quantum cryptography, changing access controls, and smart defenses ready for quantum risks. It has flexibility with one build that supports different profiles, optional microservices, and machine learning that runs in the background. This balances ease for new users with strength for big projects. It also has a good developer experience with a strong CLI, names that use metaphors for understanding and clear terms for code, and easy shifts from simple to complex setups.
 
 ### Origin and Vision
-SahaniR is named after Sahani, celebrating 9 years on March 22, 2026, and "R" for Rust. It stands for lasting strength and efficiency. The vision is to make a framework that changes how we build backends. It is faster, safer, and easier for today's developers. This happens by using physics metaphors for ideas while giving real, ready-to-use tools.
+SahaniR stands for lasting strength and efficiency. The vision is to make a framework that changes how we build backends. It is faster, safer, and easier for today's developers. This happens by using physics metaphors for ideas while giving real, ready-to-use tools.
 
 ---
 
