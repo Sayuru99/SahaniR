@@ -20,7 +20,6 @@ This repository contains the core components of the SahaniR framework in a singl
 
 ## Getting Started (MVP)
 
-This is the Minimum Viable Product (MVP) of the SahaniR framework. The core architectural stubs and the project scaffolding CLI are in place.
 
 **To test the CLI and generate a new project:**
 
