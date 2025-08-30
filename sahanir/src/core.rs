@@ -1,36 +1,27 @@
 //! The core concepts of the SahaniR framework, inspired by cosmology.
 
-use std::any::Any;
+use std::net::SocketAddr;
+use axum::Router;
+use tower_http::trace::TraceLayer;
+use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 
 /// Represents a `PocketUniverse`, an isolated module within the application.
-///
-/// In SahaniR, an application is composed of one or more "universes" that are
-/// isolated from each other, ensuring that faults or security breaches in one
-/// do not affect others. This trait is the foundation for creating such modules.
 pub trait PocketUniverse {
     /// Returns the unique name of this universe.
     fn name(&self) -> &'static str;
 
     /// Configures the services, controllers, and other components of this universe.
-    /// This method is called by the Orchestrator during application startup.
     fn configure(&self) -> UniverseConfiguration;
 }
 
 /// Configuration for a `PocketUniverse`.
-///
-/// This struct is returned by the `configure` method of a `PocketUniverse` and
-/// is used by the `Orchestrator` to set up the universe.
 #[derive(Default)]
 pub struct UniverseConfiguration {
-    /// A list of controllers to be registered for this universe.
-    pub controllers: Vec<Box<dyn Any>>,
+    /// A list of Axum routers from the controllers in this universe.
+    pub controllers: Vec<Router>,
 }
 
 /// The `Spacetime` orchestrator, responsible for managing the application's lifecycle.
-///
-/// Spacetime is the fabric of your application. It discovers and manages all the
-/// `PocketUniverse`s, handles incoming requests, and routes them to the appropriate
-// universe.
 pub struct Orchestrator {
     universes: Vec<Box<dyn PocketUniverse>>,
 }
@@ -49,17 +40,43 @@ impl Orchestrator {
         self
     }
 
-    /// Starts the application, listening for incoming events (e.g., web requests).
+    /// Starts the application, collecting routes and running the web server.
     pub async fn ignite(self) {
-        println!("The Orchestrator is igniting...");
+        // Initialize tracing for logging.
+        tracing_subscriber::registry()
+            .with(
+                tracing_subscriber::EnvFilter::try_from_default_env()
+                    .unwrap_or_else(|_| "sahanir=debug,tower_http=debug".into()),
+            )
+            .with(tracing_subscriber::fmt::layer())
+            .init();
+
+        tracing::debug!("The Orchestrator is igniting...");
+        let mut app_router = Router::new();
+
+        // Collect routers from all registered universes.
         for universe in &self.universes {
-            println!("  - Configuring universe: '{}'", universe.name());
+            tracing::debug!("  - Configuring universe: '{}'", universe.name());
             let config = universe.configure();
             if !config.controllers.is_empty() {
-                println!("    - Registered {} controller(s)", config.controllers.len());
+                tracing::debug!("    - Merging {} router(s)", config.controllers.len());
+                for controller_router in config.controllers {
+                    app_router = app_router.merge(controller_router);
+                }
             }
         }
-        println!("Spacetime is now stable. Application is running.");
-        // In a real scenario, a web server would be started here.
+
+        // Add final middleware layers.
+        let app = app_router.layer(TraceLayer::new_for_http());
+
+        // Define the server address.
+        let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
+        tracing::debug!("Spacetime is stable. Server listening on {}", addr);
+
+        // Start the server.
+        axum::Server::bind(&addr)
+            .serve(app.into_make_service())
+            .await
+            .unwrap();
     }
 }

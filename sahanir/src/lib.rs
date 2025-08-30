@@ -11,6 +11,7 @@ pub mod web;
 // A prelude module for easy importing of common types
 pub mod prelude {
     pub use crate::core::{Orchestrator, PocketUniverse, UniverseConfiguration};
+    pub use crate::web::controller::Controller;
     pub use sahanir_macros::*;
 }
 
