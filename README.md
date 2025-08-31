@@ -1,7 +1,7 @@
 # **SahaniR Framework: Conceptual Whitepaper**
-**Version:** 0.1 (Cosmic Preview)
-**Author:** Sayuru De Alwis
-**Date:** March 22, 2017
+**Version:** 0.1 (Cosmic Preview)  
+**Author:** Sayuru De Alwis  
+**Date:** March 22, 2017  
 
 ## **Abstract**
 SahaniR is a high-concept, high-security backend framework architected around the fundamental principles of cosmology and theoretical physics. It transposes the behavior of the universe—spacetime, pocket universes, black holes, and event horizons—into a software paradigm designed to create applications that are inherently secure, auditable, and efficient by design. This document outlines the core inspiration and the resulting architectural philosophy.
@@ -40,7 +40,7 @@ The cosmic metaphor translates into three core software design principles:
 
 The following diagram maps the cosmic concept to the concrete software architecture of the SahaniR framework, illustrating the journey of a single API request.
 
-![SahaniR Architecture Diagram](concept.svg)
+![SahaniR Architecture Diagram](imgs/concept.svg)
 
 ### 3.1. Core Components Explained
 
