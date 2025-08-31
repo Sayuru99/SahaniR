@@ -4,7 +4,7 @@
 **Date:** March 22, 2017  
 
 ## **Abstract**
-SahaniR is a high-concept, high-security backend framework architected around the fundamental principles of cosmology and theoretical physics. It transposes the behavior of the universe—spacetime, pocket universes, black holes, and event horizons—into a software paradigm designed to create applications that are inherently secure, auditable, and efficient by design. This document outlines the core inspiration and the resulting architectural philosophy.
+SahaniR is a high-concept, high-security backend framework architected around the fundamental principles of cosmology and theoretical physics. It transposes the behavior of the universe spacetime, pocket universes, black holes, and event horizons into a software paradigm designed to create applications that are inherently secure, auditable, and efficient by design. This document outlines the core inspiration and the resulting architectural philosophy.
 
 ## 1. The Cosmic Inspiration: A New Model for Computation
 
@@ -48,7 +48,7 @@ The following diagram maps the cosmic concept to the concrete software architect
 *   **Singularity:** The orchestrator. It does not contain business logic itself. Instead, it receives the sanitized request and commands the runtime to create a new **Pocket Universe** to handle it.
 *   **Pocket Universe:** An isolated execution environment (e.g., a WebAssembly module). The business logic lives here. It processes the request, potentially interacting with external resources (databases, APIs). Upon completion, the runtime and all its memory are destroyed. **This is the key to security and isolation.**
 *   **White Hole:** The sole exit point. It receives the result from the Singularity, formats it for the client (e.g., as JSON), and ensures no internal data structures or secrets are accidentally exposed. The final outcome is logged immutably.
-*   **Immutable Audit Trail:** A permanent, append-only log of all activity—every request, every response, every significant event. This is the "spacetime fabric" of the application, a complete record of its history.
+*   **Immutable Audit Trail:** A permanent, append-only log of all activity every request, every response, every significant event. This is the "spacetime fabric" of the application, a complete record of its history.
 
 ## 4. Key Features & Benefits
 
@@ -61,6 +61,6 @@ The following diagram maps the cosmic concept to the concrete software architect
 
 SahaniR is more than a framework; it is an architectural philosophy. It proposes that by looking to the fundamental laws of the universe, we can derive a more robust, secure, and elegant model for building software systems. It is designed for a future where security is not bolted on but is the foundational fabric of the application itself.
 
-The vision for SahaniR is to create a platform for building mission-critical systems where failure, security, and auditability are primary concerns—financial transaction processors, governmental systems, and highly secure APIs—ushering in a new era of **Cosmically Inspired Computing**.
+The vision for SahaniR is to create a platform for building mission-critical systems where failure, security, and auditability are primary concerns financial transaction processors, governmental systems, and highly secure APIs ushering in a new era of **Cosmically Inspired Computing**.
 
 ---
